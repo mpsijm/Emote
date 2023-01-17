@@ -613,7 +613,7 @@ class EmojiPicker(Gtk.Window):
         Append the given emoji to the current selection.
         Then, close the picker window and:
          - for X11, make the user's system "type" the selected characters
-           into the currently focussed application window;
+           into the currently focused application window;
          - for Wayland, copy the selected characters to the clipboard.
         """
         self.hide()
@@ -622,14 +622,15 @@ class EmojiPicker(Gtk.Window):
 
         emojis = "".join(self.emoji_append_list)
         if not config.is_wayland and self.current_window:
-            os.system(f"xdotool windowfocus --sync '{self.current_window}' type --args 1 '{emojis}'")
+            os.system(f"xdotool windowfocus --sync '{self.current_window}'")
+            os.system(f"xdotool type --args 1 '{emojis}'")
         else:
             self.copy_to_clipboard(emojis)
 
     def add_emoji_to_recent(self, emoji):
         user_data.update_recent_emojis(emoji)
         emojis.update_recent_category()
-        
+
     def copy_to_clipboard(self, content):
         cb = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         cb.set_text(content, -1)

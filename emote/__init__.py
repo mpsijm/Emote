@@ -112,7 +112,7 @@ class EmoteApplication(Gtk.Application):
     def get_current_window(self):
         if not config.is_wayland:
             result = subprocess.run(
-                ['xdotool', 'getactivewindow'], 
+                ['xdotool', 'getactivewindow'],
                 capture_output = True,
                 check = True
             )
